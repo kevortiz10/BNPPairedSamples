@@ -1,0 +1,38 @@
+Package: BNPPairedSamples
+Type: Package
+Title: Bayesian Nonparametric Hypothesis Testing for Paired Samples
+Version: 0.1.0
+Authors@R: c(person(given = "Kevin",
+             family = "Ortiz González",
+             role = c("aut", "cre"),
+             email = "kevin.ortiz@correounivalle.edu.co"),
+      person(given = "Karol Michelle",
+             family = "Sandoval Burbano",
+             role = c("aut","cre")
+             email = "karol.sandoval@correounivalle.edu.co"),
+      person(given = "Luz Adriana",
+             family = "Pereira",
+             role = c("aut")))
+Description: This package performs hypothesis testing for paired samples within the framework of Bayesian nonparametric statistics, comparing the distributions before and after the intervention and identifying the ranges of values in which they differ the most. For more details on this test refer to Pereira et al. (2020).
+License: MIT + file LICENSE
+Depends: 
+    R (>= 2.10)
+Imports: 
+    MASS,
+    mvtnorm,
+    truncnorm,
+    pracma,
+    ggplot2,
+    plotly,
+    tidyr
+Suggests: 
+    rmarkdown,
+    knitr,
+    testthat (>= 3.0.0),
+    readr,
+    readxl
+Config/testthat/edition: 3
+VignetteBuilder: knitr
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.1

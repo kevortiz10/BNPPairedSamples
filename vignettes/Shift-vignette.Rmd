@@ -1,0 +1,40 @@
+---
+title: "Shift-vignette"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Shift-vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+The shift function developed by Doksum (1974) makes it possible to plot the difference between the quantiles of two distributions as a function of the quantiles of one of the groups, in order to quantify the differences between the two study populations.
+
+## Example 1
+
+Taking into account the results of the BNP.test function that indicated significant differences between the marginal distributions, we proceed to run the shift function (which is appropriate to use when the hypothesis test and the graph of the marginal distributions show significant differences) to identify in which range the differences are found.
+
+```{r bnp1}
+
+plot.shift.function(results_BNP = test_results)
+```
+
+It is observed that in the left tail of the distributions the differences are in favor of the distribution at time 1, that is to say that the values of the distribution are more to the right, while for the right tail the differences are in favor of the distribution at time 2 and finally, at 0 there are no significant differences.
+
+## Example 2
+
+For the air quality data the differences were found visually in the location parameter, however, to see if these differences are noticeable, we proceed to run the shift.
+
+
+```{r bnp2}
+
+plot.shift.function(results_BNP = test_results)
+```
+
+The credibility interval contains 0, so there are no significant differences between the distributions, but it can be noted that the estimation of the function is below zero, which means that the values taken by the marginal distribution 1 are more to the right than those of the marginal distribution 2.
