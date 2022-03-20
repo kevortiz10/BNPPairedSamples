@@ -575,10 +575,10 @@ BNP.test <- function(x,y, n.mcm){
 
   if(post.probabilities<0.5){
     cat("\n There are no significant differences between marginal distributions G1 and G2.\n")
-    print(paste("posterior Probability for H1:",round(post.probabilities,5)))
+    print(paste("Posterior probability for H1:",round(post.probabilities,5)))
   }else{
     cat("\n There are significant differences between marginal distributions G1 and G2.\n")
-    print(paste("posterior Probability for H1:",round(post.probabilities,5)))}
+    print(paste("Posterior probability for H1:",round(post.probabilities,5)))}
 
   final_list
 
