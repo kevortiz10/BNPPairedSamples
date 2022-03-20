@@ -2,7 +2,7 @@
 title: "Shift-vignette"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Shift-vignette}
+  %\VignetteIndexEntry{from plot.shift.function R to BNPPairedSamples}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
