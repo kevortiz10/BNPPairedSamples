@@ -1,4 +1,4 @@
-#' @title BNPPairedSamples function
+#' @title BNP Testing Procedure for Paired Samples function
 #'
 #'
 #' @description

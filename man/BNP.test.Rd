@@ -2,7 +2,7 @@
 % Please edit documentation in R/BNPPairedSamples.R
 \name{BNP.test}
 \alias{BNP.test}
-\title{BNPPairedSamples function}
+\title{BNP Testing Procedure for Paired Samples function}
 \usage{
 BNP.test(x, y, n.mcm)
 }
@@ -40,8 +40,6 @@ will return an error message.
 x <- rnorm(30,3,2)
 y <- rnorm(30,4,3)
 BNP.test(x, y, n.mcm=10000)
-
-
 
 y <- matrix(runif(300), ncol = 300)
 y <- apply(y, 2, function(i) if (i < 0.5) {
