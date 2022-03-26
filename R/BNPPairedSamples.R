@@ -167,10 +167,10 @@ BNP.test <- function(x, y, n.mcm){
 
     product.0<-solve(sigma0) %*% mu.0
 
-    matrix_var<-pinv(n*t(X)%*%pinv(matrix(c(variance1 +tau ,rep((1-2*gamma1)*(1-2*gamma2)*tau,2), tau +(variance1*variance2)),byrow=F,ncol=2))%*%X + solve(sigma0))
-    matrix_mu<-matrix_var %*% (product.0 + t(X)%*%pinv(matrix(c(variance1 +tau ,rep((1-2*gamma1)*(1-2*gamma2)*tau,2), tau +(variance1*variance2)),byrow=F,ncol=2))%*%matrix(c(sum.y1,sum.y2)))
+    matrix_var<-pracma::pinv(n*t(X)%*%pracma::pinv(matrix(c(variance1 +tau ,rep((1-2*gamma1)*(1-2*gamma2)*tau,2), tau +(variance1*variance2)),byrow=F,ncol=2))%*%X + solve(sigma0))
+    matrix_mu<-matrix_var %*% (product.0 + t(X)%*%pracma::pinv(matrix(c(variance1 +tau ,rep((1-2*gamma1)*(1-2*gamma2)*tau,2), tau +(variance1*variance2)),byrow=F,ncol=2))%*%matrix(c(sum.y1,sum.y2)))
 
-    betas<-mvrnorm(n = 1,matrix_mu,matrix_var)
+    betas<-MASS::mvrnorm(n = 1,matrix_mu,matrix_var)
     Beta1<-betas[1]
     Beta2<-betas[2]
 
@@ -333,7 +333,7 @@ BNP.test <- function(x, y, n.mcm){
       param1.final.sigma2<-s
       param2.final.sigma2<-s
 
-      mu1<-mvrnorm(n = 1,mu.0,sigma0)
+      mu1<-MASS::mvrnorm(n = 1,mu.0,sigma0)
       variance1.j<-1/rgamma(1,shape=epsilon, rate=epsilon)
       variance2.j<-1/rgamma(1,shape=param1.final.sigma2, rate=param2.final.sigma2)
       tau.j<-1/rgamma(1,shape=a0, rate=b0)
@@ -390,7 +390,7 @@ BNP.test <- function(x, y, n.mcm){
 
     X<-matrix(c(1,1,0,1),ncol=2)
 
-    densities<-apply(r,1, function(j) dmvnorm(sample.y, mean=t(X%*%parameters[1:2,j]),
+    densities<-apply(r,1, function(j) mvtnorm::dmvnorm(sample.y, mean=t(X%*%parameters[1:2,j]),
                                               sigma=matrix(c(parameters[3,j]+parameters[7,j],rep((1-2*parameters[5,j])*(1-2*parameters[6,j])*parameters[7,j],2),
                                                              (parameters[3,j]*parameters[4,j])+parameters[7,j]),ncol=2)))
 
@@ -457,7 +457,7 @@ BNP.test <- function(x, y, n.mcm){
           (x-1)*sum(log(1/parameters[4,])) - x*(sum(1/parameters[4,]))
       }
 
-      stars.s2<-rtruncnorm(1, a=0.001, b=Inf, mean = s, sd = 0.3)
+      stars.s2<-truncnorm::rtruncnorm(1, a=0.001, b=Inf, mean = s, sd = 0.3)
 
       log.r<-log.post(stars.s2)-log(dtruncnorm(stars.s2, a=0.001, b=Inf, mean = s, sd = 0.3))-
         log.post(s)+log(dtruncnorm(s, a=0.001, b=Inf, mean = stars.s2, sd = 0.3))
@@ -477,7 +477,7 @@ BNP.test <- function(x, y, n.mcm){
           ((x/v0)-1)*sum(log(1/parameters[4,])) - (x/v0)* (sum(1/parameters[4,]))
       }
 
-      stars.s2<-rtruncnorm(1, a=0.001, b=Inf, mean = s, sd = 0.3)
+      stars.s2<-truncnorm::rtruncnorm(1, a=0.001, b=Inf, mean = s, sd = 0.3)
 
       log.r<-log.post(stars.s2)-log(dtruncnorm(stars.s2, a=0.001, b=Inf, mean = s, sd = 0.3))-
         log.post(s)+log(dtruncnorm(s, a=0.001, b=Inf, mean = stars.s2, sd = 0.3))
@@ -544,12 +544,12 @@ BNP.test <- function(x, y, n.mcm){
   `Grid value`<-round(c(rep(seq(min_value,max_value,length.out=200),2)),4)
   `Posterior density`<-round(means_data_frame,4)
 
-  p<-ggplot()+ geom_polygon(data=data.intervals, mapping=aes(x=x3, y=y31), fill = 'grey', colour = 'white') +
+  p<-ggplot()+geom_polygon(data=data.intervals, mapping=aes(x=x3, y=y31), fill = 'grey', colour = 'white') +
     geom_polygon(data=data.intervals, mapping=aes(x=x3, y=y32),fill = 'grey69', colour = 'white') +
     geom_line(data=data.means.estimations, mapping=aes(x=`Grid value`, y=`Posterior density`, color=labels_means))+
     labs(color="Posterior Means", x="y", y="g(y)") +scale_colour_manual(labels=c(expression(paste("E(", g[1](y),"|", "Data",")")),expression(paste("E(", g[2](y),"|", "Data",")"))), values=c("#330099","#993300")) + theme_bw()
 
-  print(ggplotly(p, tooltip = c("x", "y")))
+  print(plotly::ggplotly(p, tooltip = c("x", "y")))
 
 
   if(post.probabilities<0.5){
@@ -730,8 +730,8 @@ contours.plot <- function(results_BNP){
 
   plot.contour<-as.data.frame(z.coordinates) %>%
     rownames_to_column() %>%
-    gather(y2, value, -rowname) %>%
-    mutate(y2 = as.numeric(y2),
+    tidyverse::gather(y2, value, -rowname) %>%
+    tidyverse::mutate(y2 = as.numeric(y2),
            y1 = as.numeric(rowname)) %>%
     ggplot() +
     stat_contour(aes(x = y1, y = y2, z = value), color='grey0')+
