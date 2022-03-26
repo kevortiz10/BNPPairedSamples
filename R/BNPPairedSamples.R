@@ -27,6 +27,7 @@
 #' @importFrom MASS mvrnorm
 #' @importFrom mvtnorm dmvnorm
 #' @importFrom truncnorm rtruncnorm
+#' @importFrom truncnorm dtruncnorm
 #' @importFrom plotly ggplotly
 #' @import ggplot2
 #'
@@ -459,8 +460,8 @@ BNP.test <- function(x, y, n.mcm){
 
       stars.s2<-truncnorm::rtruncnorm(1, a=0.001, b=Inf, mean = s, sd = 0.3)
 
-      log.r<-log.post(stars.s2)-log(dtruncnorm(stars.s2, a=0.001, b=Inf, mean = s, sd = 0.3))-
-        log.post(s)+log(dtruncnorm(s, a=0.001, b=Inf, mean = stars.s2, sd = 0.3))
+      log.r<-log.post(stars.s2)-log(truncnorm::dtruncnorm(stars.s2, a=0.001, b=Inf, mean = s, sd = 0.3))-
+        log.post(s)+log(truncnorm::dtruncnorm(s, a=0.001, b=Inf, mean = stars.s2, sd = 0.3))
 
       if(log(runif(1))< min(0,log.r)){
         s<-stars.s2
@@ -479,8 +480,8 @@ BNP.test <- function(x, y, n.mcm){
 
       stars.s2<-truncnorm::rtruncnorm(1, a=0.001, b=Inf, mean = s, sd = 0.3)
 
-      log.r<-log.post(stars.s2)-log(dtruncnorm(stars.s2, a=0.001, b=Inf, mean = s, sd = 0.3))-
-        log.post(s)+log(dtruncnorm(s, a=0.001, b=Inf, mean = stars.s2, sd = 0.3))
+      log.r<-log.post(stars.s2)-log(truncnorm::dtruncnorm(stars.s2, a=0.001, b=Inf, mean = s, sd = 0.3))-
+        log.post(s)+log(truncnorm::dtruncnorm(s, a=0.001, b=Inf, mean = stars.s2, sd = 0.3))
 
       if(log(runif(1)) < min(0,log.r)){
         s<-stars.s2
@@ -692,7 +693,8 @@ plot.shift.function <- function(results_BNP){
 #'
 #'
 #' @importFrom plotly ggplotly
-#' @importFrom tidyverse gather, mutate
+#' @importFrom tidyverse gather
+#' @importFrom tidyverse mutate
 #' @import ggplot2
 #'
 #'
