@@ -1,8 +1,12 @@
 ---
-title: "Contours-vignette"
+title: "Plotting the contours plot to study the joint distribution of paired samples"
 output: rmarkdown::html_vignette
+author:
+- "Kevin Ortiz Gonzalez"
+- "Karol Michelle Sandoval"
+date: "April 2022"
 vignette: >
-  %\VignetteIndexEntry{Contours-vignette}
+  %\VignetteIndexEntry{Plotting the contours plot to study the joint distribution of paired samples}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

@@ -1,8 +1,12 @@
 ---
-title: "Shift-vignette"
+title: "Plotting the shift function to compare two dependent distributions"
+author:
+- "Kevin Ortiz Gonzalez"
+- "Karol Michelle Sandoval"
+date: "April 2022"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{from plot.shift.function R to BNPPairedSamples}
+  %\VignetteIndexEntry{Plotting the shift function to compare two dependent distributions}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
