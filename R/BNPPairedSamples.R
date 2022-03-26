@@ -1,12 +1,11 @@
 #' @title BNPPairedSamples function
 #'
+#'
 #' @description
 #' Given two vectors of numerical values, this function returns the
 #' result for Bayesian nonparametric hypothesis testing for paired
 #' samples, performing an analytical and graphical comparison of the
 #' marginal distributions of the data set.
-#'
-#'
 #'
 #'
 #' @param x a numeric vector of data values taken prior to measurement.
@@ -23,6 +22,7 @@
 #'  to the original standardized data set, which will be useful when a when
 #'  applying other functions of the package.
 #'
+#'
 #' @importFrom pracma pinv
 #' @importFrom MASS mvrnorm
 #' @importFrom mvtnorm dmvnorm
@@ -31,10 +31,10 @@
 #' @import ggplot2
 #'
 #'
-#'
 #' @note For a proper execution of the function it is required
 #' that the data vectors have the same length, otherwise the function
 #' will return an error message.
+#'
 #'
 #' @examples
 #'
@@ -42,8 +42,6 @@
 #' x <- rnorm(30,3,2)
 #' y <- rnorm(30,4,3)
 #' BNP.test(x, y, n.mcm=10000)
-#'
-#'
 #'
 #' y <- matrix(runif(300), ncol = 300)
 #' y <- apply(y, 2, function(i) if (i < 0.5) {
@@ -59,7 +57,7 @@
 #'
 #'
 #' @export
-BNP.test <- function(x,y, n.mcm){
+BNP.test <- function(x, y, n.mcm){
 
   # Data loading ---------------------------------------------------------------
 
@@ -75,15 +73,14 @@ BNP.test <- function(x,y, n.mcm){
 
   # Definition of variables and initial values ------------------------------
 
-
   mu.0<-c(0,0)
 
   a2<-5
   b2<-1
 
-  v0<- 0.1
+  v0<-0.1
 
-  epsilon <- 0.01
+  epsilon<-0.01
 
   a3<-50
   b3<-5
@@ -91,26 +88,23 @@ BNP.test <- function(x,y, n.mcm){
   a0<-0.01
   b0<-0.01
 
-
   a.gamma<-(1/2)
   b.gamma<-(1/2)
-
 
   a1<-20
   b1<-1
 
-
   kappa<- 10
 
-  alpha.prior.precision_y2.0<-0.1*(1/v0)
-  beta.prior.precision_y2.0<-0.1*(1/v0)
+  param1.sigma2<-0.1*(1/v0)
+  param2.sigma2<-0.1*(1/v0)
 
-  beta.prior.precision_y2.1<-0.1
-  alpha.prior.precision_y2.1<-0.1
+  param2.sigma2.alt<-0.1
+  param1.sigma2.alt<-0.1
 
-  s<- alpha.prior.precision_y2.1
+  s<- param1.sigma2.alt
 
-  k<-1:2 #number of clusters
+  k<-1:2
 
   if(nrow(sample.y)%%2 == 0){
     cluster.0 <- rep(c(1,2),nrow(sample.y)/2)
@@ -142,7 +136,6 @@ BNP.test <- function(x,y, n.mcm){
   parameters[7,]<-rep(3,length(b))
 
 
-
   # Gibbs sampling function for posterior inference of the atoms -------------
 
   atoms<-function(b,mat.data,t){
@@ -170,12 +163,12 @@ BNP.test <- function(x,y, n.mcm){
 
     ## Updating the mean of conditional distributions
 
-    sigma0<- diag(c(10,kappa),nrow=2)
+    sigma0<-diag(c(10,kappa),nrow=2)
 
-    product.0 <-solve(sigma0) %*% mu.0
+    product.0<-solve(sigma0) %*% mu.0
 
-    matrix_var<- pinv(n*t(X)%*%pinv(matrix(c(variance1 +tau ,rep((1-2*gamma1)*(1-2*gamma2)*tau,2), tau +(variance1*variance2)),byrow=F,ncol=2))%*%X + solve(sigma0))
-    matrix_mu<- matrix_var %*% (product.0 + t(X)%*%pinv(matrix(c(variance1 +tau ,rep((1-2*gamma1)*(1-2*gamma2)*tau,2), tau +(variance1*variance2)),byrow=F,ncol=2))%*%matrix(c(sum.y1,sum.y2)))
+    matrix_var<-pinv(n*t(X)%*%pinv(matrix(c(variance1 +tau ,rep((1-2*gamma1)*(1-2*gamma2)*tau,2), tau +(variance1*variance2)),byrow=F,ncol=2))%*%X + solve(sigma0))
+    matrix_mu<-matrix_var %*% (product.0 + t(X)%*%pinv(matrix(c(variance1 +tau ,rep((1-2*gamma1)*(1-2*gamma2)*tau,2), tau +(variance1*variance2)),byrow=F,ncol=2))%*%matrix(c(sum.y1,sum.y2)))
 
     betas<-mvrnorm(n = 1,matrix_mu,matrix_var)
     Beta1<-betas[1]
@@ -186,13 +179,13 @@ BNP.test <- function(x,y, n.mcm){
     # Updating delta
 
     numerator<-(z1*(y1-Beta1)/variance1)+(z2*(y2-Beta1-Beta2)/(variance1*variance2))
-    denominator<- (1/variance1)+(1/(variance2*variance1))+(1/tau)
+    denominator<-(1/variance1)+(1/(variance2*variance1))+(1/tau)
 
-    mean.delta <- numerator/denominator
+    mean.delta<-numerator/denominator
 
-    variance.delta <- 1/denominator
+    variance.delta<-1/denominator
 
-    delta <- rnorm(n,mean.delta, sqrt(variance.delta))
+    delta<-rnorm(n,mean.delta, sqrt(variance.delta))
 
 
     # Updating tau
@@ -209,34 +202,34 @@ BNP.test <- function(x,y, n.mcm){
 
     if(hypothesis==1){
 
-      alpha.prior.precision_y2.1<- s
-      beta.prior.precision_y2.1<- s
+      param1.sigma2.alt<-s
+      param2.sigma2.alt<-s
 
-      alpha.prior.precision_y2.0 <- s/v0
-      beta.prior.precision_y2.0 <- s/v0
+      param1.sigma2<-s/v0
+      param2.sigma2<-s/v0
 
     }else{
 
 
-      alpha.prior.precision_y2.1<-s*v0
-      beta.prior.precision_y2.1<-s*v0
+      param1.sigma2.alt<-s*v0
+      param2.sigma2.alt<-s*v0
 
-      alpha.prior.precision_y2.0<-s
-      beta.prior.precision_y2.0<-s
+      param1.sigma2<-s
+      param2.sigma2<-s
 
     }
     if(hypothesis==1){
-      alpha.prior.precision_y2<- alpha.prior.precision_y2.1
-      beta.prior.precision_y2 <- beta.prior.precision_y2.1
+      param1.final.sigma2<-param1.sigma2.alt
+      param2.final.sigma2<-param2.sigma2.alt
     }else{
-      alpha.prior.precision_y2<- alpha.prior.precision_y2.0
-      beta.prior.precision_y2 <- beta.prior.precision_y2.0
+      param1.final.sigma2<-param1.sigma2
+      param2.final.sigma2<-param2.sigma2
     }
 
-    alpha.post.precision_y2<- alpha.prior.precision_y2+(n/2)
-    beta.post.precision_y2<- (1/(2*variance1))*sum((y2-(Beta1+Beta2+z2*delta))^2) + beta.prior.precision_y2
+    alpha.sigma2<-param1.final.sigma2+(n/2)
+    beta.sigma2<-(1/(2*variance1))*sum((y2-(Beta1+Beta2+z2*delta))^2) + param2.final.sigma2
 
-    variance2<-1/rgamma(1,shape=alpha.post.precision_y2, rate=beta.post.precision_y2)
+    variance2<-1/rgamma(1,shape=alpha.sigma2, rate=beta.sigma2)
 
 
     # Updating z1
@@ -252,7 +245,7 @@ BNP.test <- function(x,y, n.mcm){
     # Updating z2
 
     prob.post.z2_neg<-gamma2*dnorm(y2,mean=Beta1+Beta2-delta,sd=sqrt(variance1*variance2))
-    prob.post.z2_positivo<- (1-gamma2)*dnorm(y2,mean=Beta1+Beta2+delta,sd=sqrt(variance1*variance2))
+    prob.post.z2_positivo<-(1-gamma2)*dnorm(y2,mean=Beta1+Beta2+delta,sd=sqrt(variance1*variance2))
 
 
     vec.prob_z2<-matrix(c(prob.post.z2_neg/(prob.post.z2_neg+prob.post.z2_positivo), prob.post.z2_positivo/(prob.post.z2_neg+prob.post.z2_positivo)),ncol=2)
@@ -278,12 +271,13 @@ BNP.test <- function(x,y, n.mcm){
 
   vec.zetas<-rep(NA,n.mcm)
   final.parameters<-list()
-  densities_1 <- list()
-  densities_2 <- list()
-  min_value <- min(sample.y)-1
-  max_value <- max(sample.y)+1
+  densities_1<-list()
+  densities_2<-list()
+  min_value<-min(sample.y)-1
+  max_value<-max(sample.y)+1
   y11<-seq(min_value,max_value,length.out = 200)
   y22<-seq(min_value,max_value,length.out = 200)
+
 
   # Simulation with MCMC algorithm ------------------------------------------
 
@@ -321,12 +315,12 @@ BNP.test <- function(x,y, n.mcm){
     # Updating the weights by stick-breaking process
 
     v.j<-apply(b,1,function(b) rbeta(1,1+sum(cluster.0==b),M + sum(cluster.0>b)))
-    prod.cum <- cumprod(1-v.j)
+    prod.cum<-cumprod(1-v.j)
     w<-v.j*c(1,prod.cum[-length(prod.cum)])
 
 
     if(sum(w)<1){
-      p.j<- c(w,1-sum(w))
+      p.j<-c(w,1-sum(w))
     }else{
       p.j<-w
     }
@@ -334,14 +328,14 @@ BNP.test <- function(x,y, n.mcm){
     if(ncol(parameters)<length(p.j)){
 
 
-      sigma0<- diag(c(10,kappa),nrow=2)
+      sigma0<-diag(c(10,kappa),nrow=2)
 
-      alpha.prior.precision_y2<- s
-      beta.prior.precision_y2 <- s
+      param1.final.sigma2<-s
+      param2.final.sigma2<-s
 
       mu1<-mvrnorm(n = 1,mu.0,sigma0)
       variance1.j<-1/rgamma(1,shape=epsilon, rate=epsilon)
-      variance2.j<-1/rgamma(1,shape=alpha.prior.precision_y2, rate=beta.prior.precision_y2)
+      variance2.j<-1/rgamma(1,shape=param1.final.sigma2, rate=param2.final.sigma2)
       tau.j<-1/rgamma(1,shape=a0, rate=b0)
 
 
@@ -359,7 +353,7 @@ BNP.test <- function(x,y, n.mcm){
 
     eta<-rbeta(1,M+1,nrow(data.initial))
 
-    tau.eta<- (a1 + ncol(parameters)-1)/(nrow(data.initial)*b1 - nrow(data.initial)*log(eta)+a1+ncol(parameters)-1)
+    tau.eta<-(a1 + ncol(parameters)-1)/(nrow(data.initial)*b1 - nrow(data.initial)*log(eta)+a1+ncol(parameters)-1)
 
 
     u.M<-runif(1)
@@ -400,10 +394,10 @@ BNP.test <- function(x,y, n.mcm){
                                               sigma=matrix(c(parameters[3,j]+parameters[7,j],rep((1-2*parameters[5,j])*(1-2*parameters[6,j])*parameters[7,j],2),
                                                              (parameters[3,j]*parameters[4,j])+parameters[7,j]),ncol=2)))
 
-    densities.1 <- apply(matrix(1:length(p.j), ncol = 1),1,function(j) p.j[j] * dnorm(y11,parameters[1,j], sqrt(parameters[3,j]+parameters[7,j])))
-    densities.2 <- apply(matrix(1:length(p.j), ncol = 1),1,function(j) p.j[j]*dnorm(y22, parameters[1,j]+parameters[2,j],sqrt((parameters[3,j]*parameters[4,j])+parameters[7,j])))
-    density.mixture1 <- rowSums(densities.1)
-    density.mixture2 <- rowSums(densities.2)
+    densities.1<-apply(matrix(1:length(p.j), ncol = 1),1,function(j) p.j[j] * dnorm(y11,parameters[1,j], sqrt(parameters[3,j]+parameters[7,j])))
+    densities.2<-apply(matrix(1:length(p.j), ncol = 1),1,function(j) p.j[j]*dnorm(y22, parameters[1,j]+parameters[2,j],sqrt((parameters[3,j]*parameters[4,j])+parameters[7,j])))
+    density.mixture1<-rowSums(densities.1)
+    density.mixture2<-rowSums(densities.2)
 
     num<-(indicadoras*densities)
     den<-rowSums(num)
@@ -419,33 +413,28 @@ BNP.test <- function(x,y, n.mcm){
 
     if(hypothesis==1){
 
-
-      joint.1<- function(l) dnorm(l[2], mean = mu.0[2], sd = sqrt(kappa), log = TRUE)+
+      joint.1<-function(l) dnorm(l[2], mean = mu.0[2], sd = sqrt(kappa), log = TRUE)+
         dgamma(1/l[4],shape=s,rate=s,log = TRUE)
 
       log.post.zeta.1<-log(pi.0)+sum(apply(parameters,2,joint.1))
 
-      joint.0<- function(l) dnorm(l[2], mean = mu.0[2], sd = sqrt(kappa*v0), log = TRUE)+
+      joint.0<-function(l) dnorm(l[2], mean = mu.0[2], sd = sqrt(kappa*v0), log = TRUE)+
         dgamma(1/l[4],shape=s*(1/v0),rate=s*(1/v0),log = TRUE)
 
       log.post.zeta.0<- log(1-pi.0)+sum(apply(parameters,2,joint.0))
-
-
     }
 
     if(hypothesis==0){
 
-
-      joint.1<- function(l) dnorm(l[2], mean = mu.0[2], sd = sqrt(kappa*(1/v0)), log = TRUE)+
+      joint.1<-function(l) dnorm(l[2], mean = mu.0[2], sd = sqrt(kappa*(1/v0)), log = TRUE)+
         dgamma(1/l[4],shape=s*v0,rate=s*v0,log = TRUE)
 
       log.post.zeta.1<-log(pi.0)+sum(apply(parameters,2,joint.1))
 
-      joint.0<- function(l) dnorm(l[2], mean = mu.0[2], sd = sqrt(kappa), log = TRUE)+
+      joint.0<-function(l) dnorm(l[2], mean = mu.0[2], sd = sqrt(kappa), log = TRUE)+
         dgamma(1/l[4],shape=s,rate=s,log = TRUE)
 
       log.post.zeta.0<- log(1-pi.0)+sum(apply(parameters,2,joint.0))
-
     }
 
     vec.prob.zeta<-c(exp(log.post.zeta.1)/(exp(log.post.zeta.1)+exp(log.post.zeta.0)),exp(log.post.zeta.0)/(exp(log.post.zeta.1)+exp(log.post.zeta.0)))
@@ -459,10 +448,9 @@ BNP.test <- function(x,y, n.mcm){
 
     if(hypothesis==1){
 
+      pi.0<-rbeta(1,(1/2)+1,(3/2)-1)
 
-      pi.0 <- rbeta(1,(1/2)+1,(3/2)-1)
-
-      kappa <- 1/rgamma(1, a2+(N/2),b2+(sum(parameters[2,]))^2/(2))
+      kappa<-1/rgamma(1, a2+(N/2),b2+(sum(parameters[2,]))^2/(2))
 
       log.post<-function(x){
         (a3-1)*log(x) - x*b3 + ncol(parameters)*x*log(x) - ncol(parameters)*(lgamma(x))+
@@ -471,7 +459,7 @@ BNP.test <- function(x,y, n.mcm){
 
       stars.s2<-rtruncnorm(1, a=0.001, b=Inf, mean = s, sd = 0.3)
 
-      log.r<- log.post(stars.s2)-log(dtruncnorm(stars.s2, a=0.001, b=Inf, mean = s, sd = 0.3))-
+      log.r<-log.post(stars.s2)-log(dtruncnorm(stars.s2, a=0.001, b=Inf, mean = s, sd = 0.3))-
         log.post(s)+log(dtruncnorm(s, a=0.001, b=Inf, mean = stars.s2, sd = 0.3))
 
       if(log(runif(1))< min(0,log.r)){
@@ -480,10 +468,9 @@ BNP.test <- function(x,y, n.mcm){
 
     }else{
 
-      pi.0 <- rbeta(1,1/2,3/2)
+      pi.0<-rbeta(1,1/2,3/2)
 
-      kappa <- 1/rgamma(1, a2+(N/2), b2+ (sum(parameters[2,]))^2/(2*v0))
-
+      kappa<-1/rgamma(1, a2+(N/2), b2+ (sum(parameters[2,]))^2/(2*v0))
 
       log.post<-function(x){
         (a3-1)*log(x/v0) - x*b3 + ncol(parameters)*(x/v0)*log(x/v0) - ncol(parameters)*(lgamma(x/v0))+
@@ -492,45 +479,41 @@ BNP.test <- function(x,y, n.mcm){
 
       stars.s2<-rtruncnorm(1, a=0.001, b=Inf, mean = s, sd = 0.3)
 
-      log.r<- log.post(stars.s2)-log(dtruncnorm(stars.s2, a=0.001, b=Inf, mean = s, sd = 0.3))-
+      log.r<-log.post(stars.s2)-log(dtruncnorm(stars.s2, a=0.001, b=Inf, mean = s, sd = 0.3))-
         log.post(s)+log(dtruncnorm(s, a=0.001, b=Inf, mean = stars.s2, sd = 0.3))
 
-      if(log(runif(1))< min(0,log.r)){
+      if(log(runif(1)) < min(0,log.r)){
         s<-stars.s2
       }
-
 
     }
 
 
-    densities_1[a] <- list(density.mixture1)
-    densities_2[a] <- list(density.mixture2)
+    densities_1[a]<-list(density.mixture1)
+    densities_2[a]<-list(density.mixture2)
   }
 
 
   burned.parameters<-final.parameters[-c(1:(n.mcm*0.2))]
   burned.hypothesis<-vec.zetas[-c(1:(n.mcm*0.2))]
 
-
   final.params<-burned.parameters[seq(from=1, to=length(burned.parameters), by=8)]
   final.hypo.vec<-burned.hypothesis[seq(from=1, to=length(burned.hypothesis), by=8)]
 
-  post.probabilities <-sum(final.hypo.vec)/length(final.hypo.vec)
+  post.probabilities<-sum(final.hypo.vec)/length(final.hypo.vec)
 
   final_list<-list(sampling.parameters=final.params,posterior.probability.H1=round(post.probabilities,5), data.init=sample.y)
 
-  w <- matrix(1:n.mcm,ncol=1)
-  den1 <- apply(w,1,function(w) densities_1[[w]])
-  den2 <- apply(w,1,function(w) densities_2[[w]])
+  w<-matrix(1:n.mcm,ncol=1)
+  den1<-apply(w,1,function(w) densities_1[[w]])
+  den2<-apply(w,1,function(w) densities_2[[w]])
 
-  burned.densities1 <- den1[,-c(1:(n.mcm*0.2))]
-  burned.densities2 <- den2[,-c(1:(n.mcm*0.2))]
+  burned.densities1<-den1[,-c(1:(n.mcm*0.2))]
+  burned.densities2<-den2[,-c(1:(n.mcm*0.2))]
 
-
-  m1 <- seq(1, ncol(burned.densities1), by=8)
-  final_densities1 <- burned.densities1[,m1]
-  final_densities2 <- burned.densities2[,m1]
-
+  m1<-seq(1, ncol(burned.densities1), by=8)
+  final_densities1<-burned.densities1[,m1]
+  final_densities2<-burned.densities2[,m1]
 
 
   # Posterior means ---------------------------------------------------------
@@ -539,13 +522,11 @@ BNP.test <- function(x,y, n.mcm){
   mean.posterior2<-rowSums(final_densities2)/ncol(final_densities2)
 
 
-
   # Graph of marginal distributions -----------------------------------------
 
   matrix.q<-matrix(1:nrow(final_densities1),ncol=1)
   q1<-t(apply(matrix.q,1, function(j) quantile(final_densities1[j,], c(.025, .975))))
   q2<-t(apply(matrix.q,1, function(j) quantile(final_densities2[j,], c(.025, .975))))
-
 
   x3<-c(seq(min_value,max_value,length.out=200),rev(seq(min_value,max_value,length.out=200)))
 
@@ -554,18 +535,16 @@ BNP.test <- function(x,y, n.mcm){
 
   limit.y<-max(c(y31,y32))+0.1
 
-
-  means_data_frame <- c(mean.posterior1,mean.posterior2)
-  labels_means <- c(rep("E(g1(y)|data)", length(mean.posterior1)),rep("E(g2(y)|data)",length(mean.posterior2)))
+  means_data_frame<-c(mean.posterior1,mean.posterior2)
+  labels_means<-c(rep("E(g1(y)|data)", length(mean.posterior1)),rep("E(g2(y)|data)",length(mean.posterior2)))
 
   data.intervals <- data.frame(x3 = x3, y31 = y31, y32 = y32)
   data.means.estimations <- data.frame(means_data_frame,labels_means)
 
+  `Grid value`<-round(c(rep(seq(min_value,max_value,length.out=200),2)),4)
+  `Posterior density`<-round(means_data_frame,4)
 
-  `Grid value` <- round(c(rep(seq(min_value,max_value,length.out=200),2)),4)
-  `Posterior density` <- round(means_data_frame,4)
-
-  p <- ggplot()+ geom_polygon(data=data.intervals, mapping=aes(x=x3, y=y31), fill = 'grey', colour = 'white') +
+  p<-ggplot()+ geom_polygon(data=data.intervals, mapping=aes(x=x3, y=y31), fill = 'grey', colour = 'white') +
     geom_polygon(data=data.intervals, mapping=aes(x=x3, y=y32),fill = 'grey69', colour = 'white') +
     geom_line(data=data.means.estimations, mapping=aes(x=`Grid value`, y=`Posterior density`, color=labels_means))+
     labs(color="Posterior Means", x="y", y="g(y)") +scale_colour_manual(labels=c(expression(paste("E(", g[1](y),"|", "Data",")")),expression(paste("E(", g[2](y),"|", "Data",")"))), values=c("#330099","#993300")) + theme_bw()
@@ -585,13 +564,16 @@ BNP.test <- function(x,y, n.mcm){
 }
 
 
+
 #' @title Shift Plot Function
+#'
 #'
 #' @description
 #' The shift function quantifies the differences between the two study
 #' populations, before and after the intervention or measurement, through
 #' the difference between the quantiles of the two distributions as a
 #' function of the quantiles of the first group.
+#'
 #'
 #' @param results_BNP list of results obtained from the \code{BNP.test} function.
 #'
@@ -603,13 +585,16 @@ BNP.test <- function(x,y, n.mcm){
 #' minimum of the data to the maximum; it also shows the average of the
 #' differences between the quantiles of both distributions.
 #'
+#'
 #' @importFrom plotly ggplotly
 #' @import ggplot2
+#'
 #'
 #' @note It is suggested to use the shift function if significant
 #' differences are observed between the marginal distributions
 #' (\code{posterior.probability.H1}), after performing the
 #' hypothesis test \code{BNP.test}.
+#'
 #'
 #' @examples
 #'
@@ -620,26 +605,25 @@ BNP.test <- function(x,y, n.mcm){
 #' @export
 plot.shift.function <- function(results_BNP){
 
-  data <- c(results_BNP$data.init[,1], results_BNP$data.init[,2])
-  low.limit <- min(data)
-  up.limit <- max(data)
+  data<-c(results_BNP$data.init[,1], results_BNP$data.init[,2])
+  low.limit<-min(data)
+  up.limit<-max(data)
 
-  x.design <- matrix(c(1,1,0,1),ncol=2)
+  x.design<-matrix(c(1,1,0,1),ncol=2)
 
   # Cumulate marginal for Y1
 
-  seq_marg <- seq(low.limit,up.limit,length.out=200)
+  seq_marg<-seq(low.limit,up.limit,length.out=200)
 
-  G1 <- t(sapply(1:length(results_BNP[[1]]), function(i) rowSums(apply(results_BNP[[1]][[i]],2,function(x.data){
+  G1<-t(sapply(1:length(results_BNP[[1]]), function(i) rowSums(apply(results_BNP[[1]][[i]],2,function(x.data){
     x.data[8]*pnorm(q=seq_marg,mean=x.design[1,]%*%x.data[1:2],
                     sd=sqrt(x.data[3]+x.data[7]))})) ))
 
-
-  shift.function <- function(R){
+  shift.function<-function(R){
 
     # Cumulate marginal for Y2
 
-    G2 <- function(x){sum(apply(results_BNP[[1]][[R]],2,function(x.data,a){
+    G2<-function(x){sum(apply(results_BNP[[1]][[R]],2,function(x.data,a){
       x.data[8]*pnorm(q=a,mean=x.design[2,]%*%x.data[1:2],
                       sd=sqrt((x.data[3]*x.data[4])+x.data[7]))},x))}
 
@@ -657,13 +641,13 @@ plot.shift.function <- function(results_BNP){
     return(shift.value)
   }
 
-  R <- matrix(1:length(results_BNP$sampling.parameters),ncol=1)
+  R<-matrix(1:length(results_BNP$sampling.parameters),ncol=1)
 
-  matrix_shift <- t(apply(R,1,shift.function))
+  matrix_shift<-t(apply(R,1,shift.function))
 
-  shift.function.means <- colMeans(matrix_shift)
+  shift.function.means<-colMeans(matrix_shift)
 
-  shift.function.quant <- t(apply(matrix_shift, 2, function(i) quantile(i, c(.025, .975))))
+  shift.function.quant<-t(apply(matrix_shift, 2, function(i) quantile(i, c(.025, .975))))
 
   x<-c(seq_marg,rev(seq_marg))
 
@@ -672,26 +656,24 @@ plot.shift.function <- function(results_BNP){
   limit.y.low<-min(c(y))-0.1
   limit.y.up<-max(c(y))+0.1
 
-  shift.data <- data.frame(x,y,shift.function.means)
-  proof <- data.frame(seq_marg,shift.function.means)
+  shift.data<-data.frame(x,y,shift.function.means)
+  proof<-data.frame(seq_marg,shift.function.means)
 
-  `Mean shift value` <- round(shift.function.means,4)
-  `Grid value` <- round(seq_marg,4)
+  `Mean shift value`<-round(shift.function.means,4)
+  `Grid value`<-round(seq_marg,4)
 
-  plot.shift <- ggplot(data=shift.data, aes(x=x,y=y, color=`Mean shift value`)) + geom_polygon( fill = 'grey', colour = 'white') +
-    geom_line( data=proof, mapping=aes(x=`Grid value`, y=`Mean shift value`, colour="Shift estimation")) +
+  plot.shift<-ggplot(data=shift.data, aes(x=x,y=y, color=`Mean shift value`)) + geom_polygon( fill = 'grey', colour = 'white') +
+    geom_line(data=proof, mapping=aes(x=`Grid value`, y=`Mean shift value`, colour="Shift estimation")) +
     theme(legend.position="bottom")+ scale_color_manual(name = "", values = c("Shift estimation" = "grey0")) +xlab('y')+ ylab('y2 - y1') + theme_bw()
-
 
   ggplotly(plot.shift, tooltip = c("x", "y", "colour"))%>%
     layout(legend = list(orientation = "h", xanchor = "center", x = 0.5, y= 1.2))
-
 }
 
 
 
-
 #' @title Contour Plot Function
+#'
 #'
 #' @description
 #'
@@ -723,34 +705,30 @@ plot.shift.function <- function(results_BNP){
 #' @export
 contours.plot <- function(results_BNP){
 
-  data <- c(results_BNP$data.init[,1], results_BNP$data.init[,2])
-  low.limit <- min(data)-1
-  up.limit <- max(data)+1
+  data<-c(results_BNP$data.init[,1], results_BNP$data.init[,2])
+  low.limit<-min(data)-1
+  up.limit<-max(data)+1
 
-  matrix_design <- matrix(c(1,1,0,1),ncol=2)
+  matrix_design<-matrix(c(1,1,0,1),ncol=2)
 
-  x.coordinates <- seq(low.limit,up.limit,length.out=200)
-  y.coordinates <- seq(low.limit,up.limit,length.out=200)
+  x.coordinates<-seq(low.limit,up.limit,length.out=200)
+  y.coordinates<-seq(low.limit,up.limit,length.out=200)
 
-  density.function <- function(m, a, b){
+  density.function<-function(m, a, b){
     rowSums(apply(X=m,2,function(v,a,b){
       v[8]*mvtnorm::dmvnorm(x=cbind(a,b),mean=t(matrix_design%*%v[1:2]),
                             sigma=matrix(c(v[3]+v[7],rep((1-2*v[5])*(1-2*v[6])*v[7],2),
                                            (v[4]*v[3])+v[7]),ncol=2))
     },a,b))}
 
-  z.coordinates <- matrix(rowMeans(sapply(X=results_BNP[[1]], FUN = density.function, a=expand.grid(x.coordinates,y.coordinates)$Var1,
+  z.coordinates<-matrix(rowMeans(sapply(X=results_BNP[[1]], FUN = density.function, a=expand.grid(x.coordinates,y.coordinates)$Var1,
                                           b=expand.grid(x.coordinates,y.coordinates)$Var2)),length(x.coordinates),length(y.coordinates))
 
+  rownames(z.coordinates)<-seq(low.limit,up.limit,length.out=nrow(z.coordinates))
 
+  colnames(z.coordinates)<-seq(low.limit,up.limit,length.out=ncol(z.coordinates))
 
-
-  rownames(z.coordinates) <- seq(low.limit,up.limit,length.out=nrow(z.coordinates))
-
-  colnames(z.coordinates) <- seq(low.limit,up.limit,length.out=ncol(z.coordinates))
-
-
-  plot.contour <- as.data.frame(z.coordinates) %>%
+  plot.contour<-as.data.frame(z.coordinates) %>%
     rownames_to_column() %>%
     gather(y2, value, -rowname) %>%
     mutate(y2 = as.numeric(y2),
@@ -763,6 +741,4 @@ contours.plot <- function(results_BNP){
     theme_bw()
 
   print(ggplotly(plot.contour))
-
 }
-
