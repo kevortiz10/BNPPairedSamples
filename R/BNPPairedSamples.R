@@ -693,8 +693,8 @@ plot.shift.function <- function(results_BNP){
 #'
 #'
 #' @importFrom plotly ggplotly
-#' @importFrom tidyverse gather
-#' @importFrom tidyverse mutate
+#' @importFrom tidyr gather
+#' @importFrom dplyr mutate
 #' @import ggplot2
 #'
 #'
@@ -732,8 +732,8 @@ contours.plot <- function(results_BNP){
 
   plot.contour<-as.data.frame(z.coordinates) %>%
     rownames_to_column() %>%
-    tidyverse::gather(y2, value, -rowname) %>%
-    tidyverse::mutate(y2 = as.numeric(y2),
+    tidyr::gather(y2, value, -rowname) %>%
+    dplyr::mutate(y2 = as.numeric(y2),
            y1 = as.numeric(rowname)) %>%
     ggplot() +
     stat_contour(aes(x = y1, y = y2, z = value), color='grey0')+

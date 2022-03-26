@@ -23,7 +23,8 @@ Imports:
     pracma,
     ggplot2,
     plotly,
-    tidyverse
+    tidyr,
+    dplyr
 Suggests: 
     rmarkdown,
     knitr,
