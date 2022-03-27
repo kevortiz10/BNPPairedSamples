@@ -25,6 +25,7 @@ The contour plot allows visualizing the joint distribution $f(x,y)$, in addition
 After running the BNP.test function to identify the existence of differences between the marginal distributions and subsequently the shift function to determine in which range such differences existed, we proceed to run the contour plot for the simulated data.
 
 ```{r bnp1}
+library(BNPPairedSamples) # Package library load
 
 contours.plot(results_BNP = test_results)
 ```

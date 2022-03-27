@@ -37,6 +37,7 @@ For the air quality data the differences were found visually in the location par
 
 
 ```{r bnp2}
+library(BNPPairedSamples) # Package library load
 
 plot.shift.function(results_BNP = test_results)
 ```
