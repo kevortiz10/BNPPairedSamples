@@ -33,7 +33,7 @@ devtools::install_github("kevortiz10/BNPPairedSamples")
 
 ## Example
 
-This section presents a brief example of the use of the BNP.test,  plot.shift.function and the contours.plot functions.
+This section presents a brief example of the use of the BNP.test,  plotshift.function and the contours.plot functions.
 
 
 ```{r bnp}
@@ -75,7 +75,7 @@ After the test identifies differences in the marginal distributions, the shift f
 
 
 ```{r bnp3}
-plot.shift.function(results_BNP=results)
+plotshift.function(results_BNP=results)
 ```
 
 

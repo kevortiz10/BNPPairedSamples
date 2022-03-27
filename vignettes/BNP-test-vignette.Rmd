@@ -149,7 +149,7 @@ It is observed that in the left tail of the distributions the differences are in
 For the air quality data the differences were found visually in the location parameter, however, to see if these differences are noticeable, we proceed to run the shift.
 
 ```{r shift2}
-BNPPairedSamples::plot.shift.function(results_BNP = test_results)
+BNPPairedSamples::plotshift.function(results_BNP = test_results)
 ```
 
 The credibility interval contains 0, so there are no significant differences between the distributions, but it can be noted that the estimation of the function is below zero, which means that the values taken by the marginal distribution 1 are more to the right than those of the marginal distribution 2.

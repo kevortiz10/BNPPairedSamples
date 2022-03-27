@@ -604,7 +604,7 @@ BNP.test <- function(x, y, n.mcm){
 #'
 #'
 #' @export
-plot.shift.function <- function(results_BNP){
+plotshift.function <- function(results_BNP){
 
   data<-c(results_BNP$data.init[,1], results_BNP$data.init[,2])
   low.limit<-min(data)
