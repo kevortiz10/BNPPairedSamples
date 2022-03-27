@@ -78,7 +78,7 @@ After loading the package library and loading the data, we proceed to run the BN
 
 ```{r bnp2}
 
-test_results <- BNP.test(x=y[,1], y=y[,2], n.mcm = 10000)
+test_results <- BNPPairedSamples::BNP.test(x=y[,1], y=y[,2], n.mcm = 10000)
 
 ```
 
@@ -121,7 +121,7 @@ Now, we proceed to run the function after loading the data.
 ```{r bnp5}
 
 
-test_results <- BNP.test(x=before_air_data, y=after_air_data, n.mcm = 10000)
+test_results <- BNPPairedSamples::BNP.test(x=before_air_data, y=after_air_data, n.mcm = 10000)
 
 ```
 
@@ -138,7 +138,7 @@ Taking into account the results of the BNP.test function that indicated signific
 
 ```{r shift1}
 
-plot.shift.function(results_BNP = test_results)
+BNPPairedSamples::plot.shift.function(results_BNP = test_results)
 ```
 
 It is observed that in the left tail of the distributions the differences are in favor of the distribution at time 1, that is to say that the values of the distribution are more to the right, while for the right tail the differences are in favor of the distribution at time 2 and finally, at 0 there are no significant differences.
@@ -149,7 +149,7 @@ It is observed that in the left tail of the distributions the differences are in
 For the air quality data the differences were found visually in the location parameter, however, to see if these differences are noticeable, we proceed to run the shift.
 
 ```{r shift2}
-plot.shift.function(results_BNP = test_results)
+BNPPairedSamples::plot.shift.function(results_BNP = test_results)
 ```
 
 The credibility interval contains 0, so there are no significant differences between the distributions, but it can be noted that the estimation of the function is below zero, which means that the values taken by the marginal distribution 1 are more to the right than those of the marginal distribution 2.
@@ -164,7 +164,7 @@ The contour plot allows visualizing the joint distribution $f(x,y)$, in addition
 After running the BNP.test function to identify the existence of differences between the marginal distributions and subsequently the shift function to determine in which range such differences existed, we proceed to run the contour plot for the simulated data.
 
 ```{r contours1}
-contours.plot(results_BNP = test_results)
+BNPPairedSamples::contours.plot(results_BNP = test_results)
 ```
 
 In this case it is observed that the joint distribution is made up of two clusters and that in the vicinity of 0 the density is 0, also noteworthy is the increasing slope of the contours, which would be expressing a positive correlation between the distributions.
@@ -176,7 +176,7 @@ For the air quality data the differences were found visually in the location par
 
 ```{r contours2}
 
-contours.plot(results_BNP = test_results)
+BNPPairedSamples::contours.plot(results_BNP = test_results)
 ```
 
 The contours show a flat shape, which would indicate that there is no correlation between marginal distributions 1 and 2. 
