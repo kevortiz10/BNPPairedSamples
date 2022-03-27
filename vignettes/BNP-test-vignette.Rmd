@@ -54,7 +54,8 @@ $$
 Where a set of n simulated random values of an uniform distribution of parameters $(0,1)$ is taken and if it is less than 0.5 it is sampled from the first distribution and otherwise from the second distribution.
 
 ```{r bnp1}
-library(BNPPairedSamples) #package library load
+library(BNPPairedSamples) # Package library load
+library(mvtnorm) # Package to simulate from a bivariate normal distribution
 
 #Simulation of the data
 
@@ -62,9 +63,9 @@ set.seed(123)
 y <- matrix(runif(300), ncol = 300)
 
 y <- apply(y, 2, function(i) if (i < 0.5) {
-  y <- rmvnorm(1, mean = c(0, -3), sigma = matrix(c(1,0.8,0.8,1),nrow = 2,byrow = T))
+  y <- mvtnorm::rmvnorm(1, mean = c(0, -3), sigma = matrix(c(1,0.8,0.8,1),nrow = 2,byrow = T))
 }else{
-  y <- rmvnorm(1, mean = c(0,3), sigma = matrix(c(1,0.8,0.8,1),nrow = 2,byrow = T))
+  y <- mvtnorm::rmvnorm(1, mean = c(0,3), sigma = matrix(c(1,0.8,0.8,1),nrow = 2,byrow = T))
 })
 
 y <- t(y)
