@@ -24,7 +24,7 @@ The contour plot allows visualizing the joint distribution $f(x,y)$, in addition
 
 After running the BNP.test function to identify the existence of differences between the marginal distributions and subsequently the shift function to determine in which range such differences existed, we proceed to run the contour plot for the simulated data.
 
-```{r bnp1}
+```{r contours1}
 library(BNPPairedSamples) # Package library load
 
 contours.plot(results_BNP = test_results)
@@ -37,7 +37,7 @@ In this case it is observed that the joint distribution is made up of two cluste
 For the air quality data the differences were found visually in the location parameter, but when the shift was obtained it was observed that the 0 was contained in the interval and the differences observed visually were not significant.
 
 
-```{r bnp2}
+```{r contours2}
 
 contours.plot(results_BNP = test_results)
 ```

@@ -24,7 +24,8 @@ The shift function developed by Doksum (1974) makes it possible to plot the diff
 
 Taking into account the results of the BNP.test function that indicated significant differences between the marginal distributions, we proceed to run the shift function (which is appropriate to use when the hypothesis test and the graph of the marginal distributions show significant differences) to identify in which range the differences are found.
 
-```{r bnp1}
+```{r shift1}
+library(BNPPairedSamples) # Package library load
 
 plot.shift.function(results_BNP = test_results)
 ```
@@ -36,9 +37,7 @@ It is observed that in the left tail of the distributions the differences are in
 For the air quality data the differences were found visually in the location parameter, however, to see if these differences are noticeable, we proceed to run the shift.
 
 
-```{r bnp2}
-library(BNPPairedSamples) # Package library load
-
+```{r shift2}
 plot.shift.function(results_BNP = test_results)
 ```
 

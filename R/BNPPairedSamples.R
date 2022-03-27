@@ -730,11 +730,11 @@ contours.plot <- function(results_BNP){
 
   colnames(z.coordinates)<-seq(low.limit,up.limit,length.out=ncol(z.coordinates))
 
-  plot.contour<-as.data.frame(z.coordinates) %>%
-    rownames_to_column() %>%
-    tidyr::gather(y2, value, -rowname) %>%
+  plot.contour<-as.data.frame(z.coordinates) dplyr::`%>%`
+    rownames_to_column() dplyr::`%>%`
+    tidyr::gather(y2, value, -rowname) dplyr::`%>%`
     dplyr::mutate(y2 = as.numeric(y2),
-           y1 = as.numeric(rowname)) %>%
+           y1 = as.numeric(rowname)) dplyr::`%>%`
     ggplot() +
     stat_contour(aes(x = y1, y = y2, z = value), color='grey0')+
     geom_point(data = data.frame(y1 = results_BNP$data.init[,1],
