@@ -1,12 +1,12 @@
 ---
-title: "Performing the BNP Testing procedure for paired samples"
+title: "Using the BNP Paired Samples Package"
 author:
 - "Kevin Ortiz Gonzalez"
 - "Karol Michelle Sandoval"
 date: "April 2022"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Performing the BNP Testing procedure for paired samples}
+  %\VignetteIndexEntry{Using the BNP Paired Samples Package}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -18,6 +18,7 @@ knitr::opts_chunk$set(
 )
 ```
 
+# Performing the BNP Testing procedure for paired samples
 
 It is very common to want to determine the effects that a given intervention or treatment has on a set of individuals, which is why statistical methods such as hypothesis tests are used, such as hypothesis tests, including the well-known Student's t-test. However, on many occasions the parametric assumptions are not fulfilled and for this reason we resort to the nonparametric field where we find the Wilcoxon signed-rank test, but which can also present inconveniences in the presence of negative correlation where the power of the test is affected, which has led many researchers to seek solutions in other fields of statistics, such as Pereira et al. (2020) who proposed a hypothesis test for paired samples that is framed in the field of Bayesian nonparametric statistics and makes the assumptions of traditional tests more flexible, in addition to comparing distributions in their entirety and not only by location and scale parameters.
 
@@ -125,3 +126,57 @@ test_results <- BNP.test(x=before_air_data, y=after_air_data, n.mcm = 10000)
 ```
 
 Finally, it is observed from the result of the hypothesis test that there seem to be significant differences; however, it is up to each researcher to determine if the probability between 0.5 and 0.6 is significant or not. As for the graph, it could be said that there are no significant differences at the level of shape and scale, but there are differences at the level of location, since the means are different from each other. 
+
+
+# Plotting the shift function to compare two dependent distributions
+
+The shift function developed by Doksum (1974) makes it possible to plot the difference between the quantiles of two distributions as a function of the quantiles of one of the groups, in order to quantify the differences between the two study populations.
+
+## Example 1
+
+Taking into account the results of the BNP.test function that indicated significant differences between the marginal distributions, we proceed to run the shift function (which is appropriate to use when the hypothesis test and the graph of the marginal distributions show significant differences) to identify in which range the differences are found.
+
+```{r shift1}
+
+plot.shift.function(results_BNP = test_results)
+```
+
+It is observed that in the left tail of the distributions the differences are in favor of the distribution at time 1, that is to say that the values of the distribution are more to the right, while for the right tail the differences are in favor of the distribution at time 2 and finally, at 0 there are no significant differences.
+
+
+## Example 2
+
+For the air quality data the differences were found visually in the location parameter, however, to see if these differences are noticeable, we proceed to run the shift.
+
+```{r shift2}
+plot.shift.function(results_BNP = test_results)
+```
+
+The credibility interval contains 0, so there are no significant differences between the distributions, but it can be noted that the estimation of the function is below zero, which means that the values taken by the marginal distribution 1 are more to the right than those of the marginal distribution 2.
+
+
+# Plotting the contours plot to study the joint distribution of paired samples
+
+The contour plot allows visualizing the joint distribution $f(x,y)$, in addition to being able to identify the possible existence of correlation between the distributions under study, which can be identified according to the slope of the contour plot. 
+
+## Example 1
+
+After running the BNP.test function to identify the existence of differences between the marginal distributions and subsequently the shift function to determine in which range such differences existed, we proceed to run the contour plot for the simulated data.
+
+```{r contours1}
+contours.plot(results_BNP = test_results)
+```
+
+In this case it is observed that the joint distribution is made up of two clusters and that in the vicinity of 0 the density is 0, also noteworthy is the increasing slope of the contours, which would be expressing a positive correlation between the distributions.
+
+
+## Example 2
+
+For the air quality data the differences were found visually in the location parameter, but when the shift was obtained it was observed that the 0 was contained in the interval and the differences observed visually were not significant.
+
+```{r contours2}
+
+contours.plot(results_BNP = test_results)
+```
+
+The contours show a flat shape, which would indicate that there is no correlation between marginal distributions 1 and 2. 
