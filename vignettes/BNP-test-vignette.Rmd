@@ -138,7 +138,7 @@ Taking into account the results of the BNP.test function that indicated signific
 
 ```{r shift1}
 
-BNPPairedSamples::plot.shift.function(results_BNP = test_results)
+BNPPairedSamples::plotshift.function(results_BNP = test_results)
 ```
 
 It is observed that in the left tail of the distributions the differences are in favor of the distribution at time 1, that is to say that the values of the distribution are more to the right, while for the right tail the differences are in favor of the distribution at time 2 and finally, at 0 there are no significant differences.

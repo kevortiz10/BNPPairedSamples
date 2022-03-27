@@ -600,7 +600,7 @@ BNP.test <- function(x, y, n.mcm){
 #' @examples
 #'
 #' results <- BNP.test(x1, y1, n.mcm=10000)
-#' plot.shift.function(results)
+#' plotshift.function(results)
 #'
 #'
 #' @export
@@ -663,11 +663,11 @@ plotshift.function <- function(results_BNP){
   `Mean shift value`<-round(shift.function.means,4)
   `Grid value`<-round(seq_marg,4)
 
-  plot.shift<-ggplot(data=shift.data, aes(x=x,y=y, color=`Mean shift value`)) + geom_polygon( fill = 'grey', colour = 'white') +
+  hift<-ggplot(data=shift.data, aes(x=x,y=y, color=`Mean shift value`)) + geom_polygon( fill = 'grey', colour = 'white') +
     geom_line(data=proof, mapping=aes(x=`Grid value`, y=`Mean shift value`, colour="Shift estimation")) +
     theme(legend.position="bottom")+ scale_color_manual(name = "", values = c("Shift estimation" = "grey0")) +xlab('y')+ ylab('y2 - y1') + theme_bw()
 
-  ggplotly(plot.shift, tooltip = c("x", "y", "colour"))%>%
+  ggplotly(hift, tooltip = c("x", "y", "colour"))%>%
     layout(legend = list(orientation = "h", xanchor = "center", x = 0.5, y= 1.2))
 }
 

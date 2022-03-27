@@ -31,7 +31,7 @@ hypothesis test \code{BNP.test}.
 \examples{
 
 results <- BNP.test(x1, y1, n.mcm=10000)
-plot.shift.function(results)
+plotshift.function(results)
 
 
 }
