@@ -17,7 +17,7 @@ BNP.test(x, y, n.mcm)
 A list with three items. The first element (\code{sampling.parameters})
  is a list of the parameters estimated by Gibbs sampling, which are returned
  as data frames within each of the iterations. The second element
- (\code{posterior.probability.H1}) refers to the a posteriori probability
+ (\code{posterior.probability.H1}) refers to the posterior probability
  for the alternative hypothesis, i.e. that differences between the marginal
  distributions occur. The third element (\code{standardized.data}) refers
  to the original standardized data set, which will be useful when a when

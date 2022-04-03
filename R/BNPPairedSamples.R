@@ -16,7 +16,7 @@
 #' @return A list with three items. The first element (\code{sampling.parameters})
 #'  is a list of the parameters estimated by Gibbs sampling, which are returned
 #'  as data frames within each of the iterations. The second element
-#'  (\code{posterior.probability.H1}) refers to the a posteriori probability
+#'  (\code{posterior.probability.H1}) refers to the posterior probability
 #'  for the alternative hypothesis, i.e. that differences between the marginal
 #'  distributions occur. The third element (\code{standardized.data}) refers
 #'  to the original standardized data set, which will be useful when a when
@@ -28,8 +28,9 @@
 #' @importFrom mvtnorm dmvnorm
 #' @importFrom truncnorm rtruncnorm
 #' @importFrom truncnorm dtruncnorm
-#' @importFrom plotly ggplotly
+#' @import plotly
 #' @import ggplot2
+#' @import dplyr
 #'
 #'
 #' @note For a proper execution of the function it is required
@@ -587,8 +588,9 @@ BNP.test <- function(x, y, n.mcm){
 #' differences between the quantiles of both distributions.
 #'
 #'
-#' @importFrom plotly ggplotly
+#' @import plotly
 #' @import ggplot2
+#' @import dplyr
 #'
 #'
 #' @note It is suggested to use the shift function if significant
@@ -665,10 +667,10 @@ plotshift.function <- function(results_BNP){
 
   hift<-ggplot(data=shift.data, aes(x=x,y=y, color=`Mean shift value`)) + geom_polygon( fill = 'grey', colour = 'white') +
     geom_line(data=proof, mapping=aes(x=`Grid value`, y=`Mean shift value`, colour="Shift estimation")) +
-    theme(legend.position="bottom")+ scale_color_manual(name = "", values = c("Shift estimation" = "grey0")) +xlab('y')+ ylab('y2 - y1') + theme_bw()
+    theme(legend.position="top")+ scale_color_manual(name = "", values = c("Shift estimation" = "grey0")) +xlab('y')+ ylab('y2 - y1') + theme_bw()
 
-  ggplotly(hift, tooltip = c("x", "y", "colour"))%>%
-    layout(legend = list(orientation = "h", xanchor = "center", x = 0.5, y= 1.2))
+  print(plotly::ggplotly(hift, tooltip = c("x", "y", "colour"))%>%
+    plotly::layout(legend = list(orientation = "h", xanchor = "center", x = 0.5, y= 1.2)))
 }
 
 
@@ -692,9 +694,9 @@ plotshift.function <- function(results_BNP){
 #'  in detail the coordinates that delimit the contour and the density they represent.
 #'
 #'
-#' @importFrom plotly ggplotly
 #' @importFrom tidyr gather
-#' @importFrom dplyr mutate
+#' @import dplyr
+#' @import plotly
 #' @import ggplot2
 #'
 #'
@@ -742,5 +744,5 @@ contours.plot <- function(results_BNP){
                mapping =aes(x = y1, y = y2), color='grey0', size=1)+labs(x='y1', y='y2') +
     theme_bw()
 
-  print(ggplotly(plot.contour))
+  print(plotly::ggplotly(plot.contour))
 }

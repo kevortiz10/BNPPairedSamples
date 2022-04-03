@@ -97,37 +97,6 @@ test_results$data.init
 
 From the hypothesis test and the marginal distributions it can be said that there are significant differences at the level of shape, scale and location.
 
-
-## Example 2
-
-The $airquality$ database from the $datasets$ library is used for this example. The data are longitudinal but the months of May and August were taken to work as paired data and only the wind column was taken, which corresponds to average wind speed data in miles per hour at La Guardia Airport between 7:00 a.m. and 10:00 a.m.
-
-
-```{r bnp4}
-
-
-#Simulation of the data
-
-library(datasets)
-data("airquality")
-
-before_air_data <- airquality[airquality$Month==5,3]
-after_air_data <- airquality[airquality$Month==8,3]
-
-```
-
-Now, we proceed to run the function after loading the data.
-
-```{r bnp5}
-
-
-test_results <- BNPPairedSamples::BNP.test(x=before_air_data, y=after_air_data, n.mcm = 10000)
-
-```
-
-Finally, it is observed from the result of the hypothesis test that there seem to be significant differences; however, it is up to each researcher to determine if the probability between 0.5 and 0.6 is significant or not. As for the graph, it could be said that there are no significant differences at the level of shape and scale, but there are differences at the level of location, since the means are different from each other. 
-
-
 # Plotting the shift function to compare two dependent distributions
 
 The shift function developed by Doksum (1974) makes it possible to plot the difference between the quantiles of two distributions as a function of the quantiles of one of the groups, in order to quantify the differences between the two study populations.
@@ -144,17 +113,6 @@ BNPPairedSamples::plotshift.function(results_BNP = test_results)
 It is observed that in the left tail of the distributions the differences are in favor of the distribution at time 1, that is to say that the values of the distribution are more to the right, while for the right tail the differences are in favor of the distribution at time 2 and finally, at 0 there are no significant differences.
 
 
-## Example 2
-
-For the air quality data the differences were found visually in the location parameter, however, to see if these differences are noticeable, we proceed to run the shift.
-
-```{r shift2}
-BNPPairedSamples::plotshift.function(results_BNP = test_results)
-```
-
-The credibility interval contains 0, so there are no significant differences between the distributions, but it can be noted that the estimation of the function is below zero, which means that the values taken by the marginal distribution 1 are more to the right than those of the marginal distribution 2.
-
-
 # Plotting the contours plot to study the joint distribution of paired samples
 
 The contour plot allows visualizing the joint distribution $f(x,y)$, in addition to being able to identify the possible existence of correlation between the distributions under study, which can be identified according to the slope of the contour plot. 
@@ -168,15 +126,3 @@ BNPPairedSamples::contours.plot(results_BNP = test_results)
 ```
 
 In this case it is observed that the joint distribution is made up of two clusters and that in the vicinity of 0 the density is 0, also noteworthy is the increasing slope of the contours, which would be expressing a positive correlation between the distributions.
-
-
-## Example 2
-
-For the air quality data the differences were found visually in the location parameter, but when the shift was obtained it was observed that the 0 was contained in the interval and the differences observed visually were not significant.
-
-```{r contours2}
-
-BNPPairedSamples::contours.plot(results_BNP = test_results)
-```
-
-The contours show a flat shape, which would indicate that there is no correlation between marginal distributions 1 and 2. 
