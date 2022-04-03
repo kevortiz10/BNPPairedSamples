@@ -546,7 +546,7 @@ BNP.test <- function(x, y, n.mcm){
   `Grid value`<-round(c(rep(seq(min_value,max_value,length.out=200),2)),4)
   `Posterior density`<-round(means_data_frame,4)
 
-  p<-ggplot()+geom_polygon(data=data.intervals, mapping=aes(x=x3, y=y31), fill = 'grey', colour = 'white') +
+  p<-ggplot2::ggplot()+geom_polygon(data=data.intervals, mapping=aes(x=x3, y=y31), fill = 'grey', colour = 'white') +
     geom_polygon(data=data.intervals, mapping=aes(x=x3, y=y32),fill = 'grey69', colour = 'white') +
     geom_line(data=data.means.estimations, mapping=aes(x=`Grid value`, y=`Posterior density`, color=labels_means))+
     labs(color="Posterior Means", x="y", y="g(y)") +scale_colour_manual(labels=c(expression(paste("E(", g[1](y),"|", "Data",")")),expression(paste("E(", g[2](y),"|", "Data",")"))), values=c("#330099","#993300")) + theme_bw()
@@ -665,7 +665,7 @@ plotshift.function <- function(results_BNP){
   `Mean shift value`<-round(shift.function.means,4)
   `Grid value`<-round(seq_marg,4)
 
-  hift<-ggplot(data=shift.data, aes(x=x,y=y, color=`Mean shift value`)) + geom_polygon( fill = 'grey', colour = 'white') +
+  hift<-ggplot2::ggplot(data=shift.data, aes(x=x,y=y, color=`Mean shift value`)) + geom_polygon( fill = 'grey', colour = 'white') +
     geom_line(data=proof, mapping=aes(x=`Grid value`, y=`Mean shift value`, colour="Shift estimation")) +
     theme(legend.position="top")+ scale_color_manual(name = "", values = c("Shift estimation" = "grey0")) +xlab('y')+ ylab('y2 - y1') + theme_bw()
 
@@ -695,6 +695,7 @@ plotshift.function <- function(results_BNP){
 #'
 #'
 #' @importFrom tidyr gather
+#' @importFrom tibble rownames_to_column
 #' @import dplyr
 #' @import plotly
 #' @import ggplot2
@@ -733,11 +734,11 @@ contours.plot <- function(results_BNP){
   colnames(z.coordinates)<-seq(low.limit,up.limit,length.out=ncol(z.coordinates))
 
   plot.contour<-as.data.frame(z.coordinates) %>%
-    rownames_to_column() %>%
+    tibble::rownames_to_column() %>%
     tidyr::gather(y2, value, -rowname) %>%
     dplyr::mutate(y2 = as.numeric(y2),
            y1 = as.numeric(rowname)) %>%
-    ggplot() +
+    ggplot2::ggplot() +
     stat_contour(aes(x = y1, y = y2, z = value), color='grey0')+
     geom_point(data = data.frame(y1 = results_BNP$data.init[,1],
                                  y2 = results_BNP$data.init[,2]),
