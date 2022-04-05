@@ -36,7 +36,7 @@ Vector x, corresponding to the weights taken at the initial time (t1), vector y,
 ``` r
 results <- BNP.test(x =weights1 , y =weights2 ,n.mcm = 10000)
 ```
-![](README-files/hypothesis_weight_losss.png)<!-- -->
+![](README-files/hypothesis_weight_loss.PNG)<!-- -->
 
 Finally the function returns a list of 3 elements, the first element corresponds to the parameters obtained in the Gibbs sampling, the second element corresponds to the posterior probability for the alternative hypothesis and finally the third element corresponds to the data entered in the function that will be useful for the other functions of the package.
 
