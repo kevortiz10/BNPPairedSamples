@@ -37,7 +37,8 @@ Vector x, corresponding to the weights taken at the initial time (t1), vector y,
 results <- BNP.test(x =weights1 , y =weights2 ,n.mcm = 10000)
 ```
 ![](README-files/hypothesis_weight_loss.PNG)<!-- -->
-![](README-files/marginal_weight_loss.PNG)<!-- -->
+
+![](README-files/marginal_weigh_loss.png)<!-- -->
 
 Finally the function returns a list of 3 elements, the first element corresponds to the parameters obtained in the Gibbs sampling, the second element corresponds to the posterior probability for the alternative hypothesis and finally the third element corresponds to the data entered in the function that will be useful for the other functions of the package.
 
@@ -52,7 +53,9 @@ results$data.init
 ```
 
 ![](README-files/sampling_parameters_weight_loss.PNG)<!-- -->
+
 ![](README-files/posterior_probability_weight_loss.PNG)<!-- -->
+
 ![](README-files/raw_data_weight_loss.PNG)<!-- -->
 
 After the test identifies differences in the marginal distributions, the shift function is run.
