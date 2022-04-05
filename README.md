@@ -45,7 +45,7 @@ Finally the function returns a list of 3 elements, the first element corresponds
 Calling the variable where the results of the function were saved and adding the $ sign extracts the element to be displayed.
 
 ``` r
-results[[1]][1:3]
+results[[1]][1:2]
   
 results$posterior.probability.H1
   
