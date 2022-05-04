@@ -3,8 +3,10 @@ title: "Using the BNP Paired Samples Package"
 author:
 - "Kevin Ortiz Gonzalez"
 - "Karol Michelle Sandoval"
-date: "April 2022"
+date: "May 2022"
 output: rmarkdown::html_vignette
+csl: apa-6th-edition.csl
+bibliography: bibliography.bib
 vignette: >
   %\VignetteIndexEntry{Using the BNP Paired Samples Package}
   %\VignetteEngine{knitr::rmarkdown}
@@ -18,9 +20,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Performing the BNP Testing procedure for paired samples
+## Performing the BNP Testing procedure for paired samples
 
-It is very common to want to determine the effects that a given intervention or treatment has on a set of individuals, which is why statistical methods such as hypothesis tests are used, such as hypothesis tests, including the well-known Student's t-test. However, on many occasions the parametric assumptions are not fulfilled and for this reason we resort to the nonparametric field where we find the Wilcoxon signed-rank test, but which can also present inconveniences in the presence of negative correlation where the power of the test is affected, which has led many researchers to seek solutions in other fields of statistics, such as Pereira et al. (2020) who proposed a hypothesis test for paired samples that is framed in the field of Bayesian nonparametric statistics and makes the assumptions of traditional tests more flexible, in addition to comparing distributions in their entirety and not only by location and scale parameters.
+It is very common to want to determine the effects that a given intervention or treatment has on a set of individuals, which is why statistical methods such as hypothesis tests are used, such as hypothesis tests, including the well-known Student's t-test. However, on many occasions the parametric assumptions are not fulfilled and for this reason we resort to the nonparametric field where we find the Wilcoxon signed-rank test, but which can also present inconveniences in the presence of negative correlation where the power of the test is affected, which has led many researchers to seek solutions in other fields of statistics, such as Pereira et al. [-@luz_adriana] who proposed a hypothesis test for paired samples that is framed in the field of Bayesian nonparametric statistics and makes the assumptions of traditional tests more flexible, in addition to comparing distributions in their entirety and not only by location and scale parameters.
 
 In this order of ideas, the BNP.test function was implemented in R, which allows the Bayesian nonparametric hypothesis test to be carried out in a functional way for the user, since only one vector with the observations before the intervention or treatment (x), another vector with the observations after the intervention (y) and finally, the number of simulations that the user wishes to carry out must be entered.
 
@@ -91,15 +93,15 @@ test_results[[1]][1:3]
   
 test_results$posterior.probability.H1
   
-test_results$data.init
+head(test_results$data.init)
 
 ```
 
 From the hypothesis test and the marginal distributions it can be said that there are significant differences at the level of shape, scale and location.
 
-# Plotting the shift function to compare two dependent distributions
+## Plotting the shift function to compare two dependent distributions
 
-The shift function developed by Doksum (1974) makes it possible to plot the difference between the quantiles of two distributions as a function of the quantiles of one of the groups, in order to quantify the differences between the two study populations.
+The shift function developed by Doksum [-@doksum1] makes it possible to plot the difference between the quantiles of two distributions as a function of the quantiles of one of the groups, in order to quantify the differences between the two study populations.
 
 ## Example 1
 
@@ -113,7 +115,7 @@ BNPPairedSamples::plotshift.function(results_BNP = test_results)
 It is observed that in the left tail of the distributions the differences are in favor of the distribution at time 1, that is to say that the values of the distribution are more to the right, while for the right tail the differences are in favor of the distribution at time 2 and finally, at 0 there are no significant differences.
 
 
-# Plotting the contours plot to study the joint distribution of paired samples
+## Plotting the contours plot to study the joint distribution of paired samples
 
 The contour plot allows visualizing the joint distribution $f(x,y)$, in addition to being able to identify the possible existence of correlation between the distributions under study, which can be identified according to the slope of the contour plot. 
 
@@ -126,3 +128,11 @@ BNPPairedSamples::contours.plot(results_BNP = test_results)
 ```
 
 In this case it is observed that the joint distribution is made up of two clusters and that in the vicinity of 0 the density is 0, also noteworthy is the increasing slope of the contours, which would be expressing a positive correlation between the distributions.
+
+
+## References
+
+```{r bibliografía, include=F}
+
+
+```

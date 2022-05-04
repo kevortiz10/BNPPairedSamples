@@ -26,7 +26,7 @@ A list with three items. The first element (\code{sampling.parameters})
 \description{
 Given two vectors of numerical values, this function returns the
 result for Bayesian nonparametric hypothesis testing for paired
-samples, performing an analytical and graphical comparison of the
+samples proposed by Pereira et al. (2020), performing an analytical and graphical comparison of the
 marginal distributions of the data set.
 }
 \note{
@@ -53,5 +53,10 @@ y1 <- y[,2]
 BNP.test(x1, y1, n.mcm=10000)
 }
 
-
+}
+\references{
+{
+Pereira, L. A., Taylor-Rodriguez, D. & Gutierrez, L. (2020), \emph{A Bayesian nonparametric
+testing procedure for paired samples}. Biometrics 76(1), 1-14.
+}
 }
