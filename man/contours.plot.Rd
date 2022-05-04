@@ -20,8 +20,9 @@ as well as to identify the correlation, if any, between the two study population
 }
 \examples{
 
+\dontrun{
 results <- BNP.test(x1, y1, n.mcm=10000)
 contours.plot(results)
-
+}
 
 }

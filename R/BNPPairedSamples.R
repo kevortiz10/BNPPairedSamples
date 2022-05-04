@@ -28,7 +28,6 @@
 #' @importFrom mvtnorm dmvnorm
 #' @importFrom truncnorm rtruncnorm
 #' @importFrom truncnorm dtruncnorm
-#' @importFrom Rdpack reprompt
 #' @import plotly
 #' @import ggplot2
 #' @import dplyr
@@ -607,9 +606,10 @@ BNP.test <- function(x, y, n.mcm){
 #'
 #' @examples
 #'
+#' \dontrun{
 #' results <- BNP.test(x1, y1, n.mcm=10000)
 #' plotshift.function(results)
-#'
+#'}
 #'
 #' @export
 plotshift.function <- function(results_BNP){
@@ -709,9 +709,10 @@ plotshift.function <- function(results_BNP){
 #'
 #' @examples
 #'
+#' \dontrun{
 #' results <- BNP.test(x1, y1, n.mcm=10000)
 #' contours.plot(results)
-#'
+#'}
 #'
 #' @export
 contours.plot <- function(results_BNP){

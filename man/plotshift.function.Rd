@@ -30,8 +30,9 @@ hypothesis test \code{BNP.test}.
 }
 \examples{
 
+\dontrun{
 results <- BNP.test(x1, y1, n.mcm=10000)
 plotshift.function(results)
-
+}
 
 }

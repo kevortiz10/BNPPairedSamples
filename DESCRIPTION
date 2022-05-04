@@ -24,8 +24,7 @@ Imports:
     ggplot2,
     plotly,
     tidyr,
-    dplyr,
-    Rdpack
+    dplyr
 Suggests: 
     rmarkdown,
     knitr,
