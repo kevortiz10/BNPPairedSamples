@@ -2,7 +2,7 @@
 
 ## Overview
 
-The objective of the BNP.test function is to perform a Bayesian nonparametric hypothesis test for paired samples proposed by Pereira et al. (2020) to determine if there are significant differences between the marginal distributions before and after an intervention or treatment performed on the study population. These differences can be further studied through the shift function, which allows us to identify in which range of values the differences between the two distributions lie, if any. Finally, the contour function allows us to visualize the joint distribution of the paired data, providing us to have a complete picture and to identify the correlation that may exist between the marginal distributions.
+The objective of the BNP.test function is to perform a Bayesian nonparametric hypothesis test for paired samples proposed by Pereira et al. (2020), to determine if there are significant differences between the marginal distributions before and after an intervention or treatment performed on the study population. These differences can be further studied through the shift function, which allows us to identify in which range of values the differences between the two distributions lie, if any. Finally, the contour function allows us to visualize the joint distribution of the paired data, providing us to have a complete picture and to identify the correlation that may exist between the marginal distributions.
 
 
 ## Installation
