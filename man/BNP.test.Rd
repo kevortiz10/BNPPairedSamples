@@ -19,9 +19,9 @@ A list with three items. The first element (\code{sampling.parameters})
  as data frames within each of the iterations. The second element
  (\code{posterior.probability.H1}) refers to the posterior probability
  for the alternative hypothesis, i.e. that differences between the marginal
- distributions occur. The third element (\code{standardized.data}) refers
- to the original standardized data set, which will be useful when a when
- applying other functions of the package.
+ distributions occur. The third element (\code{data.init}) refers
+ to the original data set, which will be useful when applying
+ other functions of the package.
 }
 \description{
 Given two vectors of numerical values, this function returns the
